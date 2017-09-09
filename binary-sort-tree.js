@@ -24,7 +24,6 @@ const BinarySortTree = function () {
       }
     }
   }
-
   this.insertNode = function (key) {
     const node = new Node(key)
     if (!root) {
@@ -33,14 +32,35 @@ const BinarySortTree = function () {
       _insertNode(root, node)
     }
   }
+
+  // 中序遍历
+  var _inOrderTraverseNode = function (node, callback) {
+    if (node) {
+      _inOrderTraverseNode(node.left, callback)
+      callback(node.key)
+      _inOrderTraverseNode(node.right, callback)
+    }
+  }
+  this.inOrderTraverse = function (callback) {
+    _inOrderTraverseNode(root, callback)
+  }
 }
 
-const nodes = [8, 3, 10, 6, 14, 4, 9, 10, 12]
+const nodes = [1, 8, 3, 10, 6, 14, 4, 9, 10, 12]
 const binarySortTree = new BinarySortTree()
 
 nodes.forEach(function(key) {
   binarySortTree.insertNode(key)
 })
+
+const cb = function (key) {
+  console.log(key)
+}
+
+binarySortTree.inOrderTraverse(cb)
+
+
+
 
 
 
