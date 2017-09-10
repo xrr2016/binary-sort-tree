@@ -44,9 +44,31 @@ const BinarySortTree = function () {
   this.inOrderTraverse = function (callback) {
     _inOrderTraverseNode(root, callback)
   }
+  // 前序遍历
+  var _preOrderTraverseNode = function (node, callback) {
+    if (node) {
+      callback(node.key)
+      _preOrderTraverseNode(node.left, callback)
+      _preOrderTraverseNode(node.right, callback)
+    }
+  }
+  this.preOrderTraverse = function (callback) {
+    _preOrderTraverseNode(root, callback)
+  }
+  // 后序遍历
+  const _posOrderTraverseNode = function (node, callback) {
+    if (node) {
+      _posOrderTraverseNode(node.left, callback)
+      _posOrderTraverseNode(node.right, callback)
+      callback(node.key)
+    }
+  }
+  this.posOrderTraverse = function (callback) {
+    _posOrderTraverseNode(root, callback)
+  }
 }
 
-const nodes = [1, 8, 3, 10, 6, 14, 4, 9, 10, 12]
+const nodes = [8, 3, 1, 6, 4, 7, 10, 14, 13]
 const binarySortTree = new BinarySortTree()
 
 nodes.forEach(function(key) {
@@ -57,7 +79,9 @@ const cb = function (key) {
   console.log(key)
 }
 
-binarySortTree.inOrderTraverse(cb)
+// binarySortTree.inOrderTraverse(cb)
+// binarySortTree.preOrderTraverse(cb)
+binarySortTree.posOrderTraverse(cb)
 
 
 
