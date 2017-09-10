@@ -34,7 +34,7 @@ const BinarySortTree = function () {
   }
 
   // 中序遍历
-  var _inOrderTraverseNode = function (node, callback) {
+  const _inOrderTraverseNode = function (node, callback) {
     if (node) {
       _inOrderTraverseNode(node.left, callback)
       callback(node.key)
@@ -45,7 +45,7 @@ const BinarySortTree = function () {
     _inOrderTraverseNode(root, callback)
   }
   // 前序遍历
-  var _preOrderTraverseNode = function (node, callback) {
+  const _preOrderTraverseNode = function (node, callback) {
     if (node) {
       callback(node.key)
       _preOrderTraverseNode(node.left, callback)
@@ -66,9 +66,52 @@ const BinarySortTree = function () {
   this.posOrderTraverse = function (callback) {
     _posOrderTraverseNode(root, callback)
   }
+  // 最小节点
+  const _min = function (node, callback) {
+    if (node) {
+      while (node.left) {
+        node = node.left
+      }
+      !!callback && callback(node.key)
+      return node.key
+    }
+    return null
+  }
+  this.min = function (callback) {
+    return _min(root, callback)
+  }
+   // 最大节点
+   const _max = function (node, callback) {
+    if (node) {
+      while (node.right) {
+        node = node.right
+      }
+      !!callback && callback(node.key)
+      return node.key
+    }
+    return null
+  }
+  this.max = function (callback) {
+    return _max(root, callback)
+  }
+  // 特定值查找
+  const _search = function (node, key, callback) {
+    if (!node) { return false }
+    if (key < node.key) {
+      return _search(node.left, key, callback)
+    } else if (key > node.key) {
+      return _search(node.right, key, callback)
+    } else {
+      !!callback && callback(node.key)
+      return true
+    }
+  }
+  this.search = function (key, callback) {
+    return _search(root, key, callback)
+  }
 }
 
-const nodes = [8, 3, 1, 6, 4, 7, 10, 14, 13]
+const nodes = [8, 3, 10, 1, 6, 14, 4, 7, 13]
 const binarySortTree = new BinarySortTree()
 
 nodes.forEach(function(key) {
@@ -81,7 +124,12 @@ const cb = function (key) {
 
 // binarySortTree.inOrderTraverse(cb)
 // binarySortTree.preOrderTraverse(cb)
-binarySortTree.posOrderTraverse(cb)
+// binarySortTree.posOrderTraverse(cb)
+// console.log('Min is', binarySortTree.min())
+// console.log('Max is', binarySortTree.max())
+console.log(binarySortTree.search(7))
+console.log(binarySortTree.search(20))
+
 
 
 
