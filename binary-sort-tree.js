@@ -109,6 +109,46 @@ const BinarySortTree = function () {
   this.search = function (key, callback) {
     return _search(root, key, callback)
   }
+  const findMinNode = function (node) {
+    if (node) {
+      while (!!node.left) {
+        node = node.left
+      }
+      return node
+    }
+    return null
+  }
+  // 节点删除
+  const _remove = function (node, key) {
+    if (!node) { return null }
+    if (key < node.key) {
+      node.left = _remove(node.left, key)
+      return node
+    } else if (key > node.key) {
+      node.right =  _remove(node.right, key)
+      return node
+    } else {
+      if (!node.left && !node.right) {
+        node = null
+        return node
+      }
+      if (!node.left) {
+        node = node.right
+        return node
+      } else if (!node.right) {
+        node = node.left
+        return node
+      }
+      // 有左右子树的节点
+      const minNode = findMinNode(node.right)
+      node.key = minNode.key
+      node.right = _remove(node.right, minNode.key)
+      return node
+    }
+  }
+  this.remove = function (key) {
+    return _remove(root, key)
+  }
 }
 
 const nodes = [8, 3, 10, 1, 6, 14, 4, 7, 13]
@@ -127,9 +167,11 @@ const cb = function (key) {
 // binarySortTree.posOrderTraverse(cb)
 // console.log('Min is', binarySortTree.min())
 // console.log('Max is', binarySortTree.max())
-console.log(binarySortTree.search(7))
-console.log(binarySortTree.search(20))
-
+// console.log(binarySortTree.search(7))
+// console.log(binarySortTree.search(20))
+console.log(binarySortTree.search(3))
+console.log(binarySortTree.remove(3))
+console.log(binarySortTree.search(3))
 
 
 
